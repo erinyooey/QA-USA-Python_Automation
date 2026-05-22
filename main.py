@@ -1,14 +1,15 @@
-from data import URBAN_ROUTES_URL
-from helpers import is_url_reachable
+import data
+import helpers
 
 
 class TestUrbanRoutes:
     @classmethod
     # add special method
     def setup_class(cls):
-        if is_url_reachable(URBAN_ROUTES_URL):
+        if helpers.is_url_reachable(data.URBAN_ROUTES_URL):
             print("Connected to the Urban Routes server")
-        print("Cannot connect to Urban Routes. Check the server is on and still running")
+        else:
+            print("Cannot connect to Urban Routes. Check the server is on and still running")
 
     # define 8 functions
     def test_set_route(self):
@@ -42,10 +43,11 @@ class TestUrbanRoutes:
         pass
 
     def test_order_2_ice_creams(self):
-        # Add in S8
-        print("function created for order 2 ice creams")
-        for i in range(2):
+        number_of_ice_creams = 2
+
+        for i in range(number_of_ice_creams):
             # Add in S8
+            print("function created for order 2 ice creams")
             pass
 
     def test_car_search_model_appears(self):
