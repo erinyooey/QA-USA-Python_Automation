@@ -1,7 +1,9 @@
-import time
-
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 
@@ -60,6 +62,7 @@ class UrbanRoutesPage:
 
     # methods for selecting plan
     def click_taxi_button(self):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.TAXI_LOCATOR))
         self.driver.find_element(*self.TAXI_LOCATOR).click()
 
     def click_supportive(self):
@@ -91,20 +94,28 @@ class UrbanRoutesPage:
 
     # methods for adding a credit card
     def click_payment_method(self):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.PAYMENT_LOCATOR))
         self.driver.find_element(*self.PAYMENT_LOCATOR).click()
 
     def click_add_card(self):
-        self.driver.find_element(*self.ADD_CARD_LOCATOR).click()
+        WebDriverWait(self.driver, 5).until(expected_conditions.presence_of_element_located(self.ADD_CARD_LOCATOR))
+        try:
+            self.driver.find_element(*self.ADD_CARD_LOCATOR).click()
+        except StaleElementReferenceException:
+            self.driver.find_element(*self.ADD_CARD_LOCATOR).click()
 
     def enter_card_number(self, card):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.CARD_FIELD))
         self.driver.find_element(*self.CARD_FIELD).send_keys(card)
 
     def enter_card_code(self, card_code):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.CARD_CODE_FIELD))
         self.driver.find_element(*self.CARD_CODE_FIELD).send_keys(card_code)
         # simulate user pressing TAB
         self.driver.find_element(*self.CARD_CODE_FIELD).send_keys(Keys.TAB)
 
     def click_link(self):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.LINK_BUTTON))
         self.driver.find_element(*self.LINK_BUTTON).click()
 
     def close(self):
@@ -124,6 +135,7 @@ class UrbanRoutesPage:
 
     # methods for ordering blanket and handkerchiefs
     def click_toggle(self):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(self.TOGGLE_BUTTON))
         self.driver.find_element(*self.TOGGLE_BUTTON).click()
 
     def check_toggle_state(self):
